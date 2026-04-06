@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2 id="text">ลองตบดู 👋</h2>
+
+<script>
+let lastTime = 0;
+let lastZ = 0;
+
+function playSound() {
+  let audio = new Audio("yametekudasai.mp3");
+  audio.play();
+}
+
+// 👉 เริ่มทำงานทันที
+window.addEventListener("devicemotion", function(event) {
+  let acc = event.accelerationIncludingGravity;
+  if (!acc) return;
+
+  let z = acc.z || 0;
+
+  let diff = Math.abs(z - lastZ);
+  lastZ = z;
+
+  let now = Date.now();
+
+  if (
+    diff > 10 &&
+    Math.abs(z) > 8 &&
+    diff > Math.abs(z) &&
+    now - lastTime > 500
+  ) {
+    lastTime = now;
+    playSound();
+  }
+});
+</script>
+
+</body>
+</html>
